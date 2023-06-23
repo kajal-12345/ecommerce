@@ -1,0 +1,30 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/login.css" />
+
+</head>
+<body>
+   <% if(errorMessage) {%>
+  <div class="error-message" id="hideMe"><%=errorMessage%></div>
+ <%}%>
+    
+    <div class="form_container">
+    <form action="/login"method="POST" class="form" novalidate>
+        <h1>Login</h1>
+        <div class="input_container">
+            <label for="email">Email</label>
+            <input type="email" id="email" class="input" name="email" value="<%=oldInput.email%>" required/>
+        </div>
+        <div class="input_container">
+            <label for="password">password</label>
+            <input type="password" id="password" class="input" name="password"value="<%=oldInput.password%>" required/>
+        
+        </div>
+        <div class="input_container">
+            <button type="submit" class="login_btn">Login</button>
+        </div>
+        <div style="display: block;text-align: center;">
+            <a href="/reset" style="text-decoration: none;color: rgb(115, 107, 107);">Reset password</a>
+        </div>      
+    </form>
+</div>
+    <%- include('../includes/end.ejs') %>

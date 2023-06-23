@@ -1,0 +1,40 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <%- include('../includes/navigation.ejs') %>
+    <main style="display: inline-block;">
+        <% if(orders.length <= 0) { %>
+            <h1>Nothing there!!</h1>
+            <% } else {%>
+                
+                    <!-- <ul style="list-style-type: none;"> -->
+                        <%orders.forEach(order => {%>
+    
+                            <!-- <li> -->
+                                <!-- <div style="display: inline-flex;"> -->
+                                    <div style="
+                                    background-color: #f0f066;
+                                    width: 10rem;
+                                    padding: 0px 20px 55px 14px;
+                                    margin: 2rem;
+                                    display: inline-block;
+                                    border: 0.15rem solid grey;
+                                    border-radius: 13px;
+                                   box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+                                  ">
+                                  <h2 style="text-align: center;">your Order</h2>
+                                        <h5>&#x25C9;&nbsp;<%=order._id%></h5>
+                                           
+                                            <% order.products.forEach(p => {%>
+                                                <p style="font-weight: 200;text-align: center;"><%=p.product.title %> (<%=p.quantity%>)</p>
+                                               <span style="font-weight: bold;text-align: center ">$ <%=p.product.price * p.quantity%></span>
+                                                <%});%>
+                                                <a href="/orders/<%=order._id%>" style="display: block; padding: 5px; text-align: center;">invoice</a>
+                                        
+                                            </div>
+                   <% });%>
+                             
+                <%}%>
+    </main>
+    <%- include('../includes/end.ejs') %>

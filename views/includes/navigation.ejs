@@ -1,0 +1,62 @@
+<header class="main-header">
+  <nav class="main-header_nav">
+    <ul class="main-header_item-list">
+      <li class="main-header__item">
+        <a href="/" class="<%= path === '/' ? 'active' : '' %>">shop</a>
+      </li>
+      <li class="main-header__item">
+        <a href="/products" class="<%= path === '/products' ? 'active' : '' %>"
+          >products</a
+        >
+      </li>
+
+      <% if(isAuthenticated) {%>
+      <li class="main-header__item">
+        <a href="/cart" class="<%= path === '/cart' ? 'active' : '' %>">cart</a>
+      </li>
+      <li class="main-header__item">
+        <a href="/orders" class="<%= path === '/orders' ? 'active' : '' %>"
+          >orders</a
+        >
+      </li>
+
+      <li class="main-header__item">
+        <a
+          href="/admin/products"
+          class="<%= path === '/admin/products' ? 'active' : '' %>"
+          >admin-product</a
+        >
+      </li>
+      <li class="main-header__item">
+        <a
+          href="/admin/edit-product"
+          class="<%= path === '/admin/add-product' ? 'active' : '' %>"
+          >add product</a
+        >
+      </li>
+    </ul>
+    <%}%> <% if(isAuthenticated) {%>
+    <ul style="list-style: none">
+      <li class="main-header__item">
+        <form action="/logout" method="post">
+          <button type="submit" id="logout_button">Logout</button>
+        </form>
+      </li>
+    </ul>
+    <%}%>
+    <% if(!isAuthenticated) {%>
+    <li class="main-header__item">
+     
+      <a href="/login" class="<%= path === '/login' ? 'active' : '' %>"
+        >Login</a
+      >
+    </li>
+    <li class="main-header__item">
+     
+      <a href="/signup" class="<%= path === '/signup' ? 'active' : '' %>"
+        >signup</a
+      >
+    </li>
+    <%}%>
+  </nav>
+</header>

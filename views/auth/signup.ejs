@@ -1,0 +1,38 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/login.css" />
+<!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"> -->
+
+</head>
+<body>
+    <% if(errorMessage) {%>
+        <div class="error-message" id="hideMe"><%=errorMessage%></div>
+       <%}%>
+    <div class="form_container" >
+    <form action="/signup"method="POST" class="form" novalidate>
+        <h1>Signup</h1>
+        <div class="input_container">
+            <label for="username">userName</label>
+            <input type="text" id="username" class="input" name="username" value="<%=oldInput.username%>" required  />
+        </div>
+        <div class="input_container">
+            <label for="email">Email</label>
+            <input type="email" id="email" class="input" name="email" value="<%=oldInput.email%>" required />
+        </div>
+        <div class="input_container">
+            <label for="password">password</label>
+            <input type= 'password' id="password" class="input" name="password" value="<%=oldInput.password%>" required/>
+            
+        </div>
+        <div class="input_container">
+            <label for="password">confirm password</label>
+            <input type="password" id="conf_password" class="input" name="conf_password" value="<%=oldInput.conf_password%>" required/>
+          
+        </div>
+        <div class="input_container">
+           
+            <button type="submit" class="login_btn">signup</button>
+        </div>
+    </form>
+</div>
+<!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script> -->
+    <%- include('../includes/end.ejs') %>

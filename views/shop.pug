@@ -1,0 +1,13 @@
+extends layout/mainLayout.pug
+block style 
+    link(rel="stylesheet" href="/css/main.css")
+
+block content 
+    main 
+        h1 my products
+        p list of all products....
+        if prods.length > 0
+            each prod in prods 
+                h1 #{prod.title}
+        else 
+            h1 no products available       

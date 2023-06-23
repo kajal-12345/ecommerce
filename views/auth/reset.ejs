@@ -1,0 +1,21 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/login.css" />
+
+</head>
+<body> 
+    <% if(errorMessage) {%>
+        <div class="error-message" id="hideMe"><%=errorMessage%></div>
+       <%}%>
+    <div class="form_container">
+    <form action="/reset"method="POST" class="form">
+        <h1>Reset password</h1>
+        <div class="input_container">
+            <label for="email">Email</label>
+            <input type="email" id="email" class="input" name="email" required/>
+        </div>
+        <div class="input_container">
+            <button type="submit" class="login_btn">reset Password</button>
+        </div>
+    </form>
+</div>
+    <%- include('../includes/end.ejs') %>
