@@ -1,5 +1,14 @@
 const http = require("http");
 const path = require("path");
+const firebaseConfig = require("./firebase.config");
+const { initializeApp } = require("firebase/app");
+const {
+  getStorage,
+  ref,
+  getDownloadURL,
+  uploadBytesResumable,
+} = require("firebase/storage");
+// const {getAnalytics} = require('firebase/analytics');
 const fs = require("fs");
 const https = require("https");
 const multer = require("multer");
@@ -21,12 +30,16 @@ const authRoute = require("./routes/auth");
 const { get404, get500 } = require("./controllers/error");
 
 const express = require("express");
-
+const { file } = require("pdfkit");
 const app = express();
+
+const webapp = initializeApp(firebaseConfig);
+// const analytics = getAnalytics(webapp);
 const accessLogStream = fs.createWriteStream(
   path.join(__dirname, "access.log"),
   { flags: "a" }
 );
+// app.use(webapp);
 app.use(helmet());
 app.use(compression());
 app.use(morgan("combined", { stream: accessLogStream }));
@@ -61,14 +74,35 @@ app.use(flash());
 // const certBuf  = Buffer.from(certificate)
 
 // console.log(certificate);
-const fileStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "images");
-  },
-  filename: (req, file, cb) => {
-    cb(null, new Date().toISOString() + "-" + file.originalname);
-  },
-});
+const storage = getStorage(webapp);
+
+// const fileStorage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "images");
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, new Date().toISOString() + "-" + file.originalname);
+//   },
+// });
+// const fileStorage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "images");
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, new Date().toISOString() + "-" + file.originalname);
+//   },
+// });
+const fileStorage = (req,res,next)=>{
+const dateTime = new Date().toISOString();
+const storageRef = ref(storage,`images/${dateTime+"-"+req.file.originalname}`);
+// const metadata ={
+//   contentType:req.file.mimetype,
+// }
+console.log("req.file",req.file);
+const snapshot =  uploadBytesResumable(storageRef,req.file.buffer);
+const downloadURL =  getDownloadURL(snapshot.ref);
+return res.send(downloadURL);
+}
 const fileFilter = (req, file, cb) => {
   if (
     file.mimetype === "image/png" ||
@@ -80,9 +114,7 @@ const fileFilter = (req, file, cb) => {
     cb(null, false);
   }
 };
-app.use(
-  multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
-);
+app.use('/images', multer({ storage: multer.memoryStorage(), fileFilter: fileFilter }).single("image"),fileStorage);
 app.use((req, res, next) => {
   if (!req.session.user) {
     return next();
