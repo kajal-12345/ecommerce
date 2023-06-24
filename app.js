@@ -36,7 +36,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // app.engine('hbs',engine({layoutsDir:'views/layout',defaultLayout:'main-layout',extname:'hbs'}));
 app.set("view engine", "ejs");
 
-const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.bfjuxm8.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}`;
+// const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.bfjuxm8.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}`;
+const MONGODB_URI = `mongodb+srv://techmini1234:tech1mini@cluster0.euerznh.mongodb.net/shop`;
+
 const store = new MongoDBStore({
   uri: MONGODB_URI,
   collection: "sessions",
@@ -115,6 +117,7 @@ mongoose
     // https
     //   .createServer({ key: buf.toString(), cert: certBuf.toString() }, app)
     //   .listen(process.env.PORT || 3000);
+    console.log("connected");
     server.listen(process.env.PORT || 3000);
   })
   .catch((err) => {
