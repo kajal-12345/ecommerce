@@ -1,4 +1,5 @@
 // const mongodb = require("mongodb");
+// const app = require('../app');
 const deleteFile = require('../util/file');
 // const ObjectId =  mongodb.ObjectId;
 const { validationResult } = require("express-validator");
@@ -15,10 +16,12 @@ exports.getAddProduct = (req, res, next) => {
 };
 
 exports.postAddProduct = (req, res, next) => {
+  // console.log(req);
   const title = req.body.title;
+  console.log("file",req.file);
   const image = req.file;
-  console.log(image);
-  const imageurl = image.path;
+  console.log("image" ,image);
+  const imageurl = req.filePath;
   const price = req.body.price;
   const description = req.body.description;
   const userId = req.user;
@@ -60,7 +63,7 @@ exports.postAddProduct = (req, res, next) => {
     .catch((err) => {
       const error = new Error(err);
       error.httpStatusCode = 500;
-      return next(error);
+     throw error;
     });
 };
 exports.getProducts = (req, res, next) => {
